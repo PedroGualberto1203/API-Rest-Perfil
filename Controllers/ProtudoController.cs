@@ -146,7 +146,7 @@ namespace ApiPerfil.Controllers
                 if (model.Quantidade.HasValue) //Verificação se a quantidade do model nao é null
                     produto.Quantidade = model.Quantidade.Value;
 
-                if (model.Preco.HasValue) //Verificação se o proço do model nao é null
+                if (model.Preco.HasValue) //Verificação se o preço do model nao é null
                     produto.Preco = model.Preco.Value;
 
                 if (model.CategoriaID.HasValue) //Verificação se a categoria do model nao é null
@@ -178,7 +178,7 @@ namespace ApiPerfil.Controllers
 
 
 
-        [HttpDelete("v1/produto/delete/{id:int}")]
+        [HttpDelete("v1/produto/delete/{id:int}")] //Delete
         [Authorize]
 
         public async Task<IActionResult> Delete(

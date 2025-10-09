@@ -9,7 +9,8 @@ public static class RoleClaimsExtensions
     {
         var result = new List<Claim>
         {
-            new(ClaimTypes.Name, user.Email) //O Claim Name vai ser o email do user
+            new(ClaimTypes.Name, user.Email), //O Claim Name vai ser o email do user
+            new(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
         result.AddRange(
             user.Permissoes.Select(role => new Claim(ClaimTypes.Role, role.Nome)) //O Claim Role vai ser role.Nome
