@@ -1,6 +1,6 @@
 namespace ApiPerfil.ViewModels.VendaViewModels
 {
-    public class VendaItemViewModel
+    public class BaseGetVendaViewModel
     {
         public int VendaItemID { get; set; }
         public int ProdutoID { get; set; }

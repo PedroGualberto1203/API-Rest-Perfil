@@ -138,5 +138,76 @@ public class VendaController : ControllerBase
             }
         }
     }
-        
+
+    [HttpGet("v1/vendas")] //Get de todas as vendas
+    [Authorize]
+    public async Task<IActionResult> Get(
+        [FromServices] ApiPerfilDataContext context)
+    {
+        try
+        {
+            var vendas = await context
+        .Vendas
+        .Include(x => x.VendaItems)
+        .Select(x => new GetVendaViewModel
+        {
+            VendaId = x.VendaID,
+            UsuarioID = x.UsuarioID,
+            DataVenda = x.DataVenda,
+            ValorTotal = x.ValorTotal,
+            VendaItems = x.VendaItems.Select(x => new BaseGetVendaViewModel
+            {
+                VendaItemID = x.VendaItemID,
+                ProdutoID = x.ProdutoID,
+                Quantidade = x.Quantidade,
+                PrecoUnitario = x.PrecoUnitario
+            }).ToList()
+        })
+        .ToListAsync();
+
+            return Ok(new ResultViewModel<List<GetVendaViewModel>>(vendas));
+        }
+        catch
+        {
+            return StatusCode(500, new ResultViewModel<List<ReturnVendaViewModel>>("Falha interna no servidor"));
+        }
+    }
+
+
+    [HttpGet("v1/venda/{valorTotal:decimal}")]
+    [Authorize]
+
+    public async Task<IActionResult> GetByValor(
+    [FromServices] ApiPerfilDataContext context,
+    [FromRoute] decimal valorTotal)
+{
+    // Busca a entidade completa do banco
+    var model = await context
+        .Vendas
+        .Include(x => x.VendaItems)
+        .FirstOrDefaultAsync(x => x.ValorTotal == valorTotal);
+
+    // Corrigindo a verificação de nulo (deve ser no objeto retornado 'model')
+    if (model == null)
+        return NotFound(new ResultViewModel<string>("Conteúdo não encontrado"));
+
+    // Mapeia a entidade para o ViewModel, incluindo a lista interna
+    var venda = new GetVendaViewModel
+    {
+        UsuarioID = model.UsuarioID,
+        VendaId = model.VendaID,
+        DataVenda = model.DataVenda,
+        ValorTotal = model.ValorTotal,
+        VendaItems = model.VendaItems.Select(item => new BaseGetVendaViewModel
+        {
+            VendaItemID = item.VendaItemID,
+            ProdutoID = item.ProdutoID,
+            Quantidade = item.Quantidade,
+            PrecoUnitario = item.PrecoUnitario
+        }).ToList()
+    };
+
+    return Ok(new ResultViewModel<GetVendaViewModel>(venda));
+}
+
 }
