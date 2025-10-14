@@ -126,7 +126,7 @@ namespace ApiPerfil.Controllers
 
 
         [HttpDelete("v1/usuario/delete/{id:int}")]//Delete de usuario
-        [Authorize]
+        [Authorize(Roles = "Admin")]
 
         public async Task<IActionResult> Delete(
             [FromServices] ApiPerfilDataContext context,

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 [ApiController]
 public class VendaController : ControllerBase
 {
-    [HttpPost("v1/venda/create")]
+    [HttpPost("v1/venda/create")] //Create de venda
     [Authorize]
     public async Task<IActionResult> Post(
         [FromServices] ApiPerfilDataContext context,

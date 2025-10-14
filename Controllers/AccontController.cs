@@ -5,6 +5,7 @@ using ApiPerfil.ViewModels;
 using ApiPerfil.ViewModels.UsuarioViewModels;
 using Blog.Extensions;
 using Blog.ViewModels.UsuarioViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SecureIdentity.Password;
@@ -47,6 +48,7 @@ namespace ApiPerfil.Controllers
 
 
         [HttpPost("v1/accounts/create")]  //REGISTRO DE USUÁRIO
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateAccount(
             [FromBody] RegisterViewModel model,
             [FromServices] EmailService emailService,
