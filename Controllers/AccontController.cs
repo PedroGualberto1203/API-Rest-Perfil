@@ -46,7 +46,7 @@ namespace ApiPerfil.Controllers
 
 
 
-        [HttpPost("v1/accounts/")]  //REGISTRO DE USUÁRIO
+        [HttpPost("v1/accounts/create")]  //REGISTRO DE USUÁRIO
         public async Task<IActionResult> CreateAccount(
             [FromBody] RegisterViewModel model,
             [FromServices] EmailService emailService,

@@ -20,6 +20,12 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
+if (app.Environment.IsDevelopment()) //Se estiver em ambiente de desenvolvimento
+{
+    app.UseSwagger(); //Habilita o Swagger
+    app.UseSwaggerUI(); //Habilita a interface do Swagger
+}
+
 app.Run();
 
 void LoadConfiguration(WebApplication app)
@@ -77,5 +83,7 @@ void ConfigureServices(WebApplicationBuilder builder)
     builder.Services.AddDbContext<ApiPerfilDataContext>();
     builder.Services.AddTransient<TokenService>();
     builder.Services.AddTransient<EmailService>();
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
 }
 

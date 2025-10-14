@@ -12,7 +12,7 @@ namespace ApiPerfil.Controllers
 {
     public class ProdutoController : ControllerBase
     {
-        [HttpGet("v1/produtos")]
+        [HttpGet("v1/produtos/get")]
         [Authorize]
 
         public async Task<IActionResult> Get(// Get de todos os produtos
@@ -47,7 +47,7 @@ namespace ApiPerfil.Controllers
 
 
 
-        [HttpGet("v1/produto/{id:int}")]// Get de UM produto pelo ID
+        [HttpGet("v1/produto/getbyid/{id:int}")]// Get de UM produto pelo ID
         [Authorize]
 
         public async Task<IActionResult> GetById(
@@ -112,9 +112,13 @@ namespace ApiPerfil.Controllers
 
                 return Ok(new ResultViewModel<Produto>(produto));
             }
+            catch(DbUpdateException)
+            {
+                return StatusCode(400, new ResultViewModel<CreateProdutoViewModel>("PROD04 - Não foi possível criar o produto"));
+            }
             catch
             {
-                return StatusCode(500, new ResultViewModel<CreateProdutoViewModel>("PROD04 - Falha interna no servidor"));
+                return StatusCode(500, new ResultViewModel<CreateProdutoViewModel>("PROD05 - Falha interna no servidor"));
             }
         }
 
@@ -169,9 +173,13 @@ namespace ApiPerfil.Controllers
 
                 return Ok(new ResultViewModel<EditProdutoViewModel>(prod));
             }
+            catch(DbUpdateException)
+            {
+                return StatusCode(400, new ResultViewModel<EditProdutoViewModel>("PROD06 - Não foi possível editar o produto"));
+            }
             catch
             {
-                return StatusCode(500, new ResultViewModel<List<Usuario>>("PROD05 - Falha interna no servidor"));
+                return StatusCode(500, new ResultViewModel<List<EditProdutoViewModel>>("PROD07 - Falha interna no servidor"));
             }
         }
 
@@ -194,9 +202,13 @@ namespace ApiPerfil.Controllers
 
                 return Ok(new ResultViewModel<Produto>($"Produto com ID={id} deletado com sucesso!"));
             }
+            catch(DbUpdateException)
+            {
+                return StatusCode(400, new ResultViewModel<Produto>("PROD08 - Não foi possível deletar o produto"));
+            }
             catch
             {
-                return StatusCode(500, new ResultViewModel<Produto>("PROD06 - Falha interna no servidor"));
+                return StatusCode(500, new ResultViewModel<Produto>("PROD09 - Falha interna no servidor"));
             }
         }
     }

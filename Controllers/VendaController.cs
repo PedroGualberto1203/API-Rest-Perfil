@@ -20,12 +20,12 @@ public class VendaController : ControllerBase
 
         //Valida se o model do carrinho está ou nao vazio
         if (model?.Itens == null || !model.Itens.Any())
-            return BadRequest(new ResultViewModel<string>("Carrinho não pode estar vazio"));
+            return BadRequest(new ResultViewModel<CarrinhoVendaViewModel>("Carrinho não pode estar vazio"));
 
         //Pega o ID do usuário logado
         var idUsuarioLogado = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "0");
         if (idUsuarioLogado == 0)
-            return Unauthorized(new ResultViewModel<string>("Usuário não autenticado"));
+            return Unauthorized(new ResultViewModel<CarrinhoVendaViewModel>("Usuário não autenticado"));
 
         //O erros é para no final avaliar, se tiver pelo menos um erro, toda a operação é cancelada
         var erros = new List<string>();
@@ -44,7 +44,7 @@ public class VendaController : ControllerBase
         //Busca o usuário que está fazendo a compra
         var usuario = await context.Usuarios.FirstOrDefaultAsync(x => x.Id == idUsuarioLogado);
         if (usuario == null)
-            return NotFound(new ResultViewModel<string>("Usuário não encontrado."));
+            return NotFound(new ResultViewModel<CarrinhoVendaViewModel>("Usuário não encontrado."));
 
         //Loop para validar cada item do carrinho
         foreach (var itemCarrinho in model.Itens)
@@ -131,6 +131,11 @@ public class VendaController : ControllerBase
 
                 return Ok(new ResultViewModel<ReturnVendaViewModel>(vendaReturn, null));
             }
+            catch (DbUpdateException ex)
+            {
+                await transacao.RollbackAsync();
+                return StatusCode(400, new ResultViewModel<CarrinhoItemViewModel>("USU05 - Não foi possível realizar a venda"));
+            }
             catch
             {
                 await transacao.RollbackAsync();
@@ -139,7 +144,7 @@ public class VendaController : ControllerBase
         }
     }
 
-    [HttpGet("v1/vendas")] //Get de todas as vendas
+    [HttpGet("v1/vendas/get")] //Get de todas as vendas
     [Authorize]
     public async Task<IActionResult> Get(
         [FromServices] ApiPerfilDataContext context)
@@ -174,24 +179,21 @@ public class VendaController : ControllerBase
     }
 
 
-    [HttpGet("v1/venda/{valorTotal:decimal}")]
+    [HttpGet("v1/venda/getbyid/{valorTotal:decimal}")] //Get por ID
     [Authorize]
 
     public async Task<IActionResult> GetByValor(
     [FromServices] ApiPerfilDataContext context,
     [FromRoute] decimal valorTotal)
 {
-    // Busca a entidade completa do banco
     var model = await context
         .Vendas
         .Include(x => x.VendaItems)
         .FirstOrDefaultAsync(x => x.ValorTotal == valorTotal);
 
-    // Corrigindo a verificação de nulo (deve ser no objeto retornado 'model')
     if (model == null)
         return NotFound(new ResultViewModel<string>("Conteúdo não encontrado"));
 
-    // Mapeia a entidade para o ViewModel, incluindo a lista interna
     var venda = new GetVendaViewModel
     {
         UsuarioID = model.UsuarioID,

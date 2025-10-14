@@ -11,7 +11,7 @@ namespace ApiPerfil.Controllers
 {
     public class SaldoController : ControllerBase
     {
-        [HttpGet("v1/saldo")] //Get de todos
+        [HttpGet("v1/saldos/get")] //Get de todos
         [Authorize]
 
         public async Task<IActionResult> Get(
@@ -39,7 +39,7 @@ namespace ApiPerfil.Controllers
 
 
 
-        [HttpGet("v1/saldo/{id:int}")]  //Get por Id
+        [HttpGet("v1/saldo/getbyid/{id:int}")]  //Get por Id
         [Authorize]
 
         public async Task<IActionResult> Get(
@@ -100,6 +100,10 @@ namespace ApiPerfil.Controllers
                 };
 
                 return Ok(new ResultViewModel<CreateSaldoViewModel>(saldo));
+            }
+            catch (DbUpdateException ex)
+            {
+                return StatusCode(400, new ResultViewModel<CreateSaldoViewModel>("CA04 - Não foi possível adicionar o saldo"));
             }
             catch
             {

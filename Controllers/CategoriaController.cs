@@ -13,7 +13,7 @@ namespace ApiPerfil.Controllers
     [Route("")]
     public class CategoriaController : ControllerBase
     {
-        [HttpGet("v1/categorias")] //Get de todas as categorias
+        [HttpGet("v1/categorias/get")] //Get de todas as categorias
         [Authorize]
         public async Task<IActionResult> Get(
             [FromServices] ApiPerfilDataContext context)
@@ -30,7 +30,7 @@ namespace ApiPerfil.Controllers
         }
 
 
-        [HttpGet("v1/categoria/{id:int}")] //Get de uma categoria(por ID)
+        [HttpGet("v1/categoria/getbyid/{id:int}")] //Get de uma categoria(por ID)
         [Authorize]
         public async Task<IActionResult> GetById(
             [FromRoute] int id,
@@ -75,7 +75,7 @@ namespace ApiPerfil.Controllers
             }
             catch (DbUpdateException ex)
             {
-                return StatusCode(500, new ResultViewModel<Categoria>("CA04 - Não foi possível incluir a categoria"));
+                return StatusCode(400, new ResultViewModel<Categoria>("CA04 - Não foi possível criar a categoria"));
             }
             catch
             {

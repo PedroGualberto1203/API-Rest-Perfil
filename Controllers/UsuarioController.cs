@@ -11,7 +11,7 @@ namespace ApiPerfil.Controllers
 {
     public class UsuarioController : ControllerBase
     {
-        [HttpGet("v1/usuarios")] //Get de todos os usuarios
+        [HttpGet("v1/usuarios/get")] //Get de todos os usuarios
         [Authorize]
         public async Task<IActionResult> Get(
             [FromServices] ApiPerfilDataContext context)
@@ -41,7 +41,7 @@ namespace ApiPerfil.Controllers
 
 
 
-        [HttpGet("v1/usuario/{id:int}")] //Get por ID
+        [HttpGet("v1/usuario/getbyid/{id:int}")] //Get por ID
         [Authorize]
         public async Task<IActionResult> GetById(
             [FromServices] ApiPerfilDataContext context,
@@ -113,9 +113,13 @@ namespace ApiPerfil.Controllers
                     usuario.CPF
                 }));
             }
+            catch (DbUpdateException ex)
+            {
+                return StatusCode(400, new ResultViewModel<Usuario>("USU05 - Não foi possível criar a categoria"));
+            }
             catch
             {
-                return StatusCode(500, new ResultViewModel<List<Usuario>>("USU05 - Falha interna no servidor"));
+                return StatusCode(500, new ResultViewModel<List<Usuario>>("USU06 - Falha interna no servidor"));
             }
         }
 
@@ -137,9 +141,13 @@ namespace ApiPerfil.Controllers
 
                 return Ok(new ResultViewModel<Usuario>($"usuário com ID={id} deletado com sucesso!"));
             }
+            catch (DbUpdateException ex)
+            {
+                return StatusCode(400, new ResultViewModel<Usuario>("USU07 - Não foi possível criar a categoria"));
+            }
             catch
             {
-                return StatusCode(500, new ResultViewModel<Usuario>("USU06 - Falha interna no servidor"));
+                return StatusCode(500, new ResultViewModel<Usuario>("USU08 - Falha interna no servidor"));
             }
         }
         
