@@ -4,6 +4,7 @@ using ApiPerfil.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiPerfil.Migrations
 {
     [DbContext(typeof(ApiPerfilDataContext))]
-    partial class ApiPerfilDataContextModelSnapshot : ModelSnapshot
+    [Migration("20251014193517_ModificandoOMapeamento")]
+    partial class ModificandoOMapeamento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,18 +180,6 @@ namespace ApiPerfil.Migrations
                         {
                             t.HasCheckConstraint("CHK_Usuarios_Saldo", "[Saldo] >= 0");
                         });
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CPF = "00000000000",
-                            Email = "admin@email.com",
-                            NomeCompleto = "Admin Master",
-                            Saldo = 500m,
-                            SenhaHash = "10000.T+mynenJ2vkjFAjTMWvJkg==.fcN+tJH6rWsSjuvGbHlcCjaQoVEspNSczr0pwsX8v80=",
-                            Telefone = "999999999"
-                        });
                 });
 
             modelBuilder.Entity("ApiPerfil.Models.Venda", b =>
@@ -273,13 +264,6 @@ namespace ApiPerfil.Migrations
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("UsuarioPermissoes");
-
-                    b.HasData(
-                        new
-                        {
-                            PermissaoId = 1,
-                            UsuarioId = 1
-                        });
                 });
 
             modelBuilder.Entity("ApiPerfil.Models.Produto", b =>

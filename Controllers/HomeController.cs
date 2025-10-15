@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SecureIdentity.Password;
 
 
 namespace ApiPerfil.Controllers
