@@ -1,6 +1,6 @@
 # API REST para Perfil Acessórios
 
-![.NET](https://img.shields.io/badge/.NET-8.0-blueviolet) ![Entity Framework Core](https://img.shields.io/badge/EF%20Core-8.0-blue) ![SQL Server](https://img.shields.io/badge/SQL%20Server-blue) ![Status](https://img.shields.io/badge/status-em%20desenvolvimento-brightgreen)
+![.NET](https://img.shields.io/badge/.NET-8.0-blueviolet) ![Entity Framework Core](https://img.shields.io/badge/EF%20Core-8.0-blue) ![SQL Server](https://img.shields.io/badge/SQL%20Server-blue) ![Versão](https://img.shields.io/badge/versão-1.0.0-blue)
 
 ## 📖 Sobre o Projeto
 
