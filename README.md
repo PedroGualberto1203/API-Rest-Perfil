@@ -1,77 +1,115 @@
 # API REST para Perfil Acessórios
 
-![.NET](https://img.shields.io/badge/.NET-6.0-blueviolet) ![Entity Framework Core](https://img.shields.io/badge/EF%20Core-6.0-blue) ![SQL Server](https://img.shields.io/badge/SQL%20Server-blue) ![Status](https://img.shields.io/badge/status-online-success)
+![.NET](https://img.shields.io/badge/.NET-8.0-blueviolet) ![Entity Framework Core](https://img.shields.io/badge/EF%20Core-8.0-blue) ![SQL Server](https://img.shields.io/badge/SQL%20Server-blue) ![Status](https://img.shields.io/badge/status-em%20desenvolvimento-brightgreen)
 
 ## 📖 Sobre o Projeto
 
-Esta é uma API RESTful desenvolvida em ASP.NET Core 6 como back-end para um sistema de e-commerce e gerenciamento de perfil de usuários. O projeto foi construído do zero, desde a modelagem do banco de dados relacional até a implementação de regras de negócio complexas, autenticação, autorização e a publicação final no Microsoft Azure.
+Esta é uma API RESTful desenvolvida em ASP.NET Core 8 como back-end para um sistema de e-commerce e gerenciamento de perfil de usuários. O projeto foi construído do zero, desde a modelagem do banco de dados relacional até a implementação de regras de negócio complexas, autenticação, autorização e documentação.
 
-O objetivo foi criar uma API robusta, segura e documentada, aplicando as melhores práticas do mercado para desenvolvimento back-end.
+O objetivo principal foi aplicar e solidificar conhecimentos em arquitetura de APIs, boas práticas de desenvolvimento e segurança, criando um projeto de portfólio robusto, bem documentado e pronto para ser executado.
 
 ## ✨ Funcionalidades
 
 A API conta com um conjunto completo de funcionalidades para um sistema de gerenciamento:
 
 * 🔐 **Autenticação e Autorização:** Sistema seguro baseado em Tokens JWT com autorização granular baseada em Permissões (Roles/Claims).
-* 👤 **Gerenciamento de Usuários:** CRUD completo de usuários, com sistema de saldo e permissões.
+* 👤 **Gerenciamento de Usuários:** CRUD completo de usuários, com sistema de saldo e permissões. O registro de novos usuários é uma ação restrita a administradores.
 * 📦 **Gerenciamento de Catálogo:** CRUD de Produtos e Categorias.
-* 🛒 **Sistema de Vendas:** Lógica transacional complexa para processamento de compras, com validação de estoque e saldo do cliente.
-* 📄 **Documentação Interativa:** Geração automática de documentação da API com Swagger (OpenAPI).
+* 🛒 **Sistema de Vendas:** Lógica transacional complexa para processamento de compras, garantindo a atomicidade das operações com validação de estoque e saldo do cliente.
+* 📄 **Documentação Interativa:** Geração automática de documentação da API com Swagger (OpenAPI) para facilitar os testes e o consumo dos endpoints.
 
 ## 🚀 Tecnologias Utilizadas
 
 Este projeto foi construído com um stack de tecnologias moderno e robusto do ecossistema .NET:
 
-* **.NET 6**
+* **.NET 8**
 * **ASP.NET Core** para a construção da API REST.
-* **Entity Framework Core 6** como ORM, utilizando a abordagem **Code-First** com **Fluent API**.
-* **SQL Server** (hospedado no Azure SQL) como banco de dados relacional.
+* **Entity Framework Core 8** como ORM, utilizando a abordagem **Code-First** com **Fluent API** e **Data Seeding**.
+* **SQL Server** como banco de dados relacional.
 * **Autenticação JWT Bearer** para segurança dos endpoints.
+* **SecureIdentity** para geração e verificação de hashes de senha.
 * **Swashbuckle** para a documentação via Swagger.
-* **Microsoft Azure** para publicação (App Service & SQL Database).
 
 ## 🏛️ Arquitetura e Padrões
 
 Durante o desenvolvimento, diversos padrões e conceitos de arquitetura foram aplicados para garantir um código limpo, seguro e manutenível:
 
-* **Padrão de ViewModels/DTOs (Data Transfer Objects):** Para criar um contrato claro com o cliente da API, evitar o vazamento de dados sensíveis (como `SenhaHash`) e prevenir erros de referência circular.
+* **Padrão de ViewModels/DTOs (Data Transfer Objects):** Para criar um contrato claro com o cliente da API, evitar o vazamento de dados sensíveis (como `SenhaHash`) e prevenir erros de referência circular na serialização.
 * **Injeção de Dependência (Dependency Injection):** Utilizada extensivamente para desacoplar as camadas da aplicação.
-* **Tratamento de Erros Robusto:** Estrutura de `try-catch` para lidar com diferentes tipos de exceções, retornando códigos de status HTTP apropriados (`400`, `403`, `404`, `500`).
+* **Tratamento de Erros Robusto:** Estrutura de `try-catch` para lidar com exceções, retornando códigos de status HTTP apropriados (`400`, `403`, `404`, `500`).
 * **Validação Customizada:** Implementação de `ValidationAttribute` customizado para regras de negócio específicas.
 
-## 🧪 Testando a API Online
+## ▶️ Como Executar e Testar Localmente
 
-A API está publicada e pronta para ser testada! A maneira mais fácil de interagir com os endpoints é através da documentação interativa do Swagger.
+Siga os passos abaixo para clonar, configurar e executar a API em seu ambiente de desenvolvimento.
 
-* **URL Base da API:** `http://localhost:5126` *(Substitua pela sua URL do Azure)*
-* **Documentação Interativa (Swagger):** `http://localhost:5126/swagger` *(Substitua pela sua URL do Azure)*
+### Pré-requisitos
 
-### Conta de Teste Disponível
+* **[.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)**
+* **[SQL Server Express](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads)** ou **[Developer Edition](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads)**.
+* Um cliente de API como **[Postman](https://www.postman.com/downloads/)** (opcional, pois o Swagger já está configurado).
+* **[Git](https://git-scm.com/downloads)**.
 
-**Nota:** O endpoint de registro de novos usuários (`POST /v1/accounts`) agora é restrito a administradores para fins de segurança. Por favor, utilize a conta de teste abaixo para se autenticar e interagir com a API.
+### Passo a Passo da Instalação e Execução
 
-* **Email:** `teste@email.com`
-* **Password:** `123456`
+**1. Clone o Repositório:**
+```sh
+git clone [https://github.com/PedroGualberto1203/API-Rest-Perfil.git](https://github.com/PedroGualberto1203/API-Rest-Perfil.git)
+cd API-Rest-Perfil
+```
 
-### Guia Rápido de Teste
+**2. Configure a Conexão com o Banco (`appsettings.Development.json`):**
+Por segurança, este arquivo não está no repositório. Você precisa criá-lo na raiz do projeto.
 
-1.  **Acesse a Documentação:** Abra o link do **Swagger** no seu navegador.
+* Crie um arquivo chamado `appsettings.Development.json`.
+* Copie e cole o conteúdo abaixo e **altere a `DefaultConnection`** para apontar para a sua instância local do SQL Server.
 
-2.  **Faça o Login para Obter o Token:**
-    * Encontre a seção `Account`, expanda o endpoint `POST /v1/accounts/login`.
-    * Clique no botão **"Try it out"**.
-    * Preencha o corpo da requisição com as credenciais da conta de teste fornecida acima.
-    * Clique no botão azul **"Execute"**.
-    * A resposta de sucesso conterá seu **token JWT**. Copie a string completa do token (sem as aspas).
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost;Database=ApiPerfilDB;Integrated Security=True;TrustServerCertificate=True"
+  },
+  "JwtKey": "ZGhpZWd1aW5ob2RhbHZlc2VxdWVyYWx2ZXNkaWVndWlub2RhbHZl"
+}
+```
+*(Nota: `Integrated Security=True` funciona para o SQL Server Express padrão no Windows. Se você usa autenticação com usuário e senha, ajuste a string para: `Server=SUA_INSTANCIA;Database=ApiPerfilDB;User ID=SEU_USUARIO;Password=SUA_SENHA;TrustServerCertificate=True`)*
 
-3.  **Autorize suas Requisições no Swagger:**
-    * No topo da página do Swagger, clique no botão verde **"Authorize"**.
-    * Na janela que abrir, no campo "Value", digite `Bearer ` (a palavra "Bearer", um espaço) e cole o seu token na frente.
-    * Exemplo: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`
+**3. Crie e Popule o Banco de Dados (Passo Mágico):**
+Este comando único fará tudo por você: criará o banco de dados `ApiPerfilDB` (se não existir), executará todas as migrações para criar as tabelas e relacionamentos, e **populará o banco com os dados essenciais**, incluindo as permissões padrão e um **usuário Administrador pronto para testes**.
+```sh
+dotnet ef database update
+```
+
+**4. Execute a Aplicação:**
+```sh
+dotnet run
+```
+A API estará rodando nos endereços indicados no terminal (geralmente `http://localhost:5126` e `https://localhost:7074`).
+
+### Testando a API com o Swagger
+
+Com a API rodando, a forma mais fácil de testar é pelo Swagger.
+
+1.  **Acesse a Documentação:**
+    Abra seu navegador e vá para: **http://localhost:5126/swagger**
+
+2.  **Faça o Login com a Conta Admin Padrão:**
+    O banco de dados já foi criado com um usuário Administrador para testes. Use as seguintes credenciais:
+    * **Email:** `admin@email.com`
+    * **Password:** `Admin@123`
+
+    No Swagger, vá para o endpoint `POST /v1/accounts/login`, clique em "Try it out", use as credenciais acima e clique em "Execute".
+
+3.  **Copie o Token JWT:**
+    A resposta do login conterá seu token. Copie a string completa do token (sem as aspas).
+
+4.  **Autorize o Swagger:**
+    * No topo da página, clique no botão verde **"Authorize"**.
+    * Na janela que abrir, digite `Bearer ` (a palavra "Bearer" e um espaço) e cole o seu token.
     * Clique no botão **"Authorize"** na janela e depois em "Close".
 
-4.  **Teste os Endpoints Protegidos:**
-    * Pronto! Agora você está autenticado. Vá para qualquer endpoint com um cadeado (🔒), como `GET /v1/produtos`, clique em "Try it out" e "Execute". A requisição agora funcionará.
+5.  **Explore a API!**
+    Pronto! Agora você está autenticado como Admin e pode testar **todos** os endpoints da API, incluindo o registro de novos usuários, criação de produtos, etc.
 
 ## Endpoints Principais
 
@@ -82,8 +120,8 @@ A API está publicada e pronta para ser testada! A maneira mais fácil de intera
 | `GET` | `/v1/usuarios` | Lista todos os usuários. | Sim (`[Authorize]`) |
 | `DELETE` | `/v1/usuarios/{id}` | Deleta um usuário específico. | **Sim (Admin)** |
 | `GET` | `/v1/produtos` | Lista todos os produtos. | Sim (`[Authorize]`) |
-| `POST`| `/v1/produtos/create` | Cria um novo produto. | Sim (`Admin`, `Gerente...`) |
-| `PUT` | `/v1/produtos/edit/{id}` | Edita um produto existente. | Sim (`Admin`, `Gerente...`) |
+| `POST`| `/v1/produtos/create` | Cria um novo produto. | Sim (`Admin`) |
+| `PUT` | `/v1/produtos/edit/{id}` | Edita um produto existente. | Sim (`Admin`) |
 | `POST` | `/v1/venda/create` | Processa uma nova venda/compra. | Sim (`[Authorize]`) |
 
 ---
@@ -92,5 +130,5 @@ A API está publicada e pronta para ser testada! A maneira mais fácil de intera
 
 **Pedro Gualberto**
 
-* [LinkedIn](https://www.linkedin.com/in/seu-perfil/)
-* [GitHub](https://github.com/PedroGualberto1203)
+* **LinkedIn:** `https://www.linkedin.com/in/seu-perfil/`
+* **GitHub:** `https://github.com/PedroGualberto1203`
